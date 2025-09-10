@@ -5,25 +5,54 @@
 DAEMON_NAME="clippy_daemon"
 SYSTEM=$(uname)
 LOG_FILE="/tmp/clippy/${DAEMON_NAME}.log"
+PID_FILE="/tmp/clippy/${DAEMON_NAME}.pid"
 
-#system check
-system_check() {
-	if [[ "$SYSTEM" == "Darwin" ]]; then 
-		echo "System is running on macOS"
-	elif [[ "$SYSTEM" == "Linux" ]]; then
-		echo "System is running on Linux"
-	else 
-		echo "Cannot determine the current system."
+
+#unix main loop
+#linux main loop
+
+#startup function 
+startup_daemon() {
+	if [[ -f $PID_FILE ]]; then
+		echo "Process ${cat $(PID_FILE)} is already running"
 		exit 1
 	fi
+	case $SYSTEM in 
+		"Darwin")
+			unix_loop
+			;;
+		"Linux")
+			linux_loop
+			;;
+		*)
+			echo "System cannot be determined"
+			exit 1
+			;;
+	esac
 }
-#main loop
-#startup function 
 
 #stop function 
-
+stop_daemon() {
+	if [[ ! -f $PID_FILE ]]; then
+		echo "Daemon is not running!"		
+		exit 1
+	fi
+	kill $(cat $PID_FILE)
+	echo "Process $(cat $PID_FILE) stopped successfully"
+}
 #status function
 
 #daemon entry point
 
-system_check
+case $1 in
+	start)
+		start_daemon
+		;;
+	stop)
+		stop_daemon
+		;;
+	status) 
+		status_daemon
+		;;
+esac
+
