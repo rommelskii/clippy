@@ -20,7 +20,7 @@ unix_loop() {
 	do
 		if [[ $buf != $clipboard ]]; then # buffer write occurs only when different from the current
 			buf=$clipboard
-			echo "$buf | $(date)" >> $OUT_FILE
+			echo "$buf" >> $OUT_FILE
 		fi
 	done
 	sleep 0.4
