@@ -3,10 +3,21 @@
 
 #!/bin/bash
 DAEMON_NAME="clippy_daemon"
-LOG_FILE="/tmp/${DAEMON_NAME}.log"
+SYSTEM=$(uname)
+LOG_FILE="/tmp/clippy/${DAEMON_NAME}.log"
 
+#system check
+system_check() {
+	if [[ "$SYSTEM" == "Darwin" ]]; then 
+		echo "System is running on macOS"
+	elif [[ "$SYSTEM" == "Linux" ]]; then
+		echo "System is running on Linux"
+	else 
+		echo "Cannot determine the current system."
+		exit 1
+	fi
+}
 #main loop
-
 #startup function 
 
 #stop function 
@@ -14,3 +25,5 @@ LOG_FILE="/tmp/${DAEMON_NAME}.log"
 #status function
 
 #daemon entry point
+
+system_check
