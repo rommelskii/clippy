@@ -22,8 +22,9 @@ unix_loop() {
 			buf=$clipboard
 			echo "$buf" >> $OUT_FILE
 		fi
+		clipboard=$(pbpaste)
+		sleep 0.4
 	done
-	sleep 0.4
 }
 #linux main loop
 
