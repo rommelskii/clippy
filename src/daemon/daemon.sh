@@ -9,6 +9,9 @@ PID_FILE="/tmp/clippy/${DAEMON_NAME}.pid"
 
 
 #unix main loop
+unix_loop() {
+	
+}
 #linux main loop
 
 #startup function 
@@ -41,6 +44,14 @@ stop_daemon() {
 	echo "Process $(cat $PID_FILE) stopped successfully"
 }
 #status function
+status_daemon() {
+	pid=$(cat $PID_FILE)
+	if kill -0 "$pid" > /dev/null 2 > &1; then
+		echo "Running"
+	else
+		echo "Stopped"
+	fi
+}
 
 #daemon entry point
 
