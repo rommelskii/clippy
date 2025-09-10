@@ -10,7 +10,16 @@ PID_FILE="/tmp/clippy/${DAEMON_NAME}.pid"
 
 #unix main loop
 unix_loop() {
-	
+	local buf
+	local clipboard = $(pbpaste) #pbpaste pastes the content of the clipboard
+
+	while true #main loop
+	do
+		if [[ $buf != $clipboard ]]; then # buffer write occurs only when different from the current
+			$buf = $clipboard
+		fi
+	done
+	sleep 0.4
 }
 #linux main loop
 
